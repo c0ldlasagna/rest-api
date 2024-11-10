@@ -11,15 +11,21 @@ const postSchema = mongoose.Schema(
         content:{
             type:String,
             required:false,
-            immutable:true
+            immutable:false,
+            default:null
         },
         author:{
             type: mongoose.Schema.ObjectId,
-            ref:User.name,
+            ref:"User",
             required:true,
             immutable:true,
         },
-        replies:[mongoose.Schema.ObjectId],
+        replies:[
+            {
+            type:mongoose.Schema.ObjectId,
+            ref:'Post'
+            }
+        ]
     },
     {
         timestamps:true,

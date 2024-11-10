@@ -4,7 +4,8 @@ const User = require("./models/user.model.js");
 const userRoute = require("./routes/userRoute.js");
 const postRoute = require("./routes/postRoute.js")
 const app = express();
-const uri = "mongodb+srv://erechoum:3xK.ytvbZxxPmpG@cluster0.ou8vg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+require('dotenv').config()
+const uri = `mongodb+srv://erechoum:${process.env.Password}@cluster0.ou8vg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
 // middleware
@@ -13,14 +14,14 @@ app.use(express.urlencoded({extended: false}));
 
 
 // routes
-app.use("/api/users", userRoute);
-app.use("/api/posts",postRoute)
+app.use("/users", userRoute);
+app.use("/posts",postRoute);
 
 
 
 
 app.get("/", (req, res) => {
-  res.send("Hello from Node API Server Updated");
+  res.send("This is the root directory");
 });
 
 
