@@ -1,10 +1,15 @@
-const { password } = require('@inquirer/prompts');
 const User = require('../models/user.model.js');
 
 const getUser = async (req,res)=>{
   try {
-    const users = await User.find({});
+    if (req.query){
+    const users = await User.find(req.query);
     res.status(200).json(users);
+    return
+    }
+    else{
+      res.status(200).json(await User.find({}))
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -52,7 +57,22 @@ const deleteUser = async(req,res)=>{
 }
 }
 
+const editUser = async (req,res)=>{
+  try{
+    const user = await User.findOne({username:req.body.username,password:req.body.password});
+    if (!user){
+      res.status(403).json({message:"Incorrect login credentials"});
+      return
+    }
+    await User.findByIdAndUpdate(user.id,{username:req.body.newusername,name:req.body.newname,password:req.body.newpassword});
+    res.status(200).json({message:"Successfully updated credentials"});
+  }
+  catch (err){
+    res.status(500).json({ message: err.message });
+  }
+}
+
 
 module.exports={
-  getUser,createUser,login,deleteUser
+  getUser,createUser,login,deleteUser,editUser
 }

@@ -5,7 +5,7 @@ const userRoute = require("./routes/userRoute.js");
 const postRoute = require("./routes/postRoute.js")
 const app = express();
 require('dotenv').config()
-const uri = `mongodb+srv://erechoum:${process.env.Password}@cluster0.ou8vg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = process.env.URI;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
 // middleware

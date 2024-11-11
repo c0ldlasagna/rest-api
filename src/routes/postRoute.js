@@ -6,12 +6,10 @@ const {getPosts, createPost, deletePost, editPost, getPostsFromAuthor} = require
 
 router.get("/", getPosts);
 
-router.post("/", createPost);
+router.post("/:parentID?", createPost);
 
-router.delete("/",deletePost)
+router.delete("/:id",deletePost)
 
-router.post("/:id",editPost)
-
-router.get("/:id",getPostsFromAuthor)
+router.put("/:id",editPost);
 
 module.exports = router;
