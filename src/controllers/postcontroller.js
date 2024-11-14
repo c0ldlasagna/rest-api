@@ -1,9 +1,9 @@
 const Post = require('../models/post.model.js');
 const User = require('../models/user.model.js');
+const bcrypt = require('bcrypt');
 
 const getPosts = async (req,res)=>{
   try {
-    console.log(req.query)
     if (req.query){
     const posts = await Post.find(req.query).populate({path:'author',select:"name username"});
     res.status(200).json(posts);
@@ -18,9 +18,14 @@ const getPosts = async (req,res)=>{
 };
 const createPost = async (req, res) => {
   try {
-    const user = await User.findOne({username:req.body.username,password:req.body.password});
+    const user = await User.findOne({username:req.body.username});
     if (!user){
-      res.status(403).json({message:"Incorrect Login Credentials"})
+      res.status(403).json({message:"Incorrect login credentials"});
+      return
+    }
+    const password = await bcrypt.compare(req.body.password,user.password)
+    if (!password){
+      res.status(403).json({message:"Incorrect login credentials"});
       return
     }
     if(req.params.parentID){
@@ -47,9 +52,14 @@ const createPost = async (req, res) => {
 
 const deletePost = async (req,res)=>{
   try{
-    const user = await User.findOne({username:req.body.username,password:req.body.password});
+    const user = await User.findOne({username:req.body.username});
     if (!user){
-      res.status(403).json({message:"Incorrect Login Credentials"});
+      res.status(403).json({message:"Incorrect login credentials"});
+      return
+    }
+    const password = await bcrypt.compare(req.body.password,user.password)
+    if (!password){
+      res.status(403).json({message:"Incorrect login credentials"});
       return
     }
     const post = await Post.findById(req.params.id);
@@ -72,9 +82,14 @@ const deletePost = async (req,res)=>{
 
 const editPost = async (req,res)=>{
   try{
-    const user = await User.findOne({username:req.body.username,password:req.body.password});
+    const user = await User.findOne({username:req.body.username});
     if (!user){
-      res.status(403).json({message:"Incorrect Login Credentials"});
+      res.status(403).json({message:"Incorrect login credentials"});
+      return
+    }
+    const password = await bcrypt.compare(req.body.password,user.password)
+    if (!password){
+      res.status(403).json({message:"Incorrect login credentials"});
       return
     }
     const post = await Post.findById(req.params.id)
