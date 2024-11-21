@@ -7,7 +7,9 @@ const app = express();
 require('dotenv').config()
 const uri = process.env.URI;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use("/users", userRoute);
