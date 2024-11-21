@@ -8,22 +8,10 @@ require('dotenv').config()
 const uri = process.env.URI;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
-// middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-
-
-// routes
 app.use("/users", userRoute);
 app.use("/posts",postRoute);
-
-
-
-
-app.get("/", (req, res) => {
-  res.send("This is the root directory");
-});
-
 
 async function run() {
     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
