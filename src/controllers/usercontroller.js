@@ -13,7 +13,7 @@ const getUser = async (req,res)=>{
       res.status(200).json({success:true, data:await User.find({},"username name")})
     }
   } catch (error) {
-    res.status(500).json({ sucess:false , message: error.message });
+    res.status(500).json({ success:false , message: error.message });
   }
 };
 
@@ -24,7 +24,7 @@ const createUser = async (req, res) => {
     user = await User.findById(user.id,"-password");
     res.status(200).json({success:true,data:user});
   } catch (error) {
-    res.status(500).json({ sucess:false, message: error.message });
+    res.status(500).json({ success:false, message: error.message });
   }
 };
 
@@ -32,7 +32,7 @@ const login = async(req,res)=>{
   try{
     const user = await User.findOne({username:req.body.username});
     if (!user){
-      res.status(403).json({sucess:false, message:"Incorrect login credentials"});
+      res.status(403).json({success:false, message:"Incorrect login credentials"});
       return
     }
     const password = await bcrypt.compare(req.body.password,user.password)
@@ -52,12 +52,12 @@ const deleteUser = async(req,res)=>{
   try{
     const user = await User.findOne({username:req.body.username});
     if (!user){
-      res.status(403).json({sucess:false,message:"Incorrect login credentials"});
+      res.status(403).json({success:false,message:"Incorrect login credentials"});
       return
     }
     const password = await bcrypt.compare(req.body.password,user.password)
     if (!password){
-      res.status(403).json({sucess:false,message:"Incorrect login credentials"});
+      res.status(403).json({success:false,message:"Incorrect login credentials"});
       return
     }
     await User.findByIdAndDelete(user.id)
@@ -72,12 +72,12 @@ const editUser = async (req,res)=>{
   try{
     const user = await User.findOne({username:req.body.username});
     if (!user){
-      res.status(403).json({sucess:false,message:"Incorrect login credentials"});
+      res.status(403).json({success:false,message:"Incorrect login credentials"});
       return
     }
     const password = await bcrypt.compare(req.body.password,user.password)
     if (!password){
-      res.status(403).json({sucess:false ,message:"Incorrect login credentials"});
+      res.status(403).json({success:false ,message:"Incorrect login credentials"});
       return
     }
     let newData = {};
